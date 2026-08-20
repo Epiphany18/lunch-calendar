@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>午餐执行月历 · 2026年8月 · 高桥商会大厦-B座</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2329; --sub:#6b7280;
+    --line:#e6e8eb; --brand:#ff7a00; --brand2:#ffb347; --ok:#16a34a;
+    --warn:#d97706; --swap:#dc2626; --chip:#fff3e6; --chipink:#b45309; --empty:#fafbfc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:18px 14px 56px}
+  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:18px;
+    padding:22px 20px;box-shadow:0 8px 24px rgba(255,122,0,.25)}
+  header h1{font-size:21px;font-weight:800;letter-spacing:.5px}
+  header .meta{margin-top:8px;font-size:13px;opacity:.96}
+  header .meta b{font-weight:700}
+  .approvebar{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:rgba(255,255,255,.18);border-radius:12px;padding:9px 12px;font-size:13px}
+  .approvebar .prog{font-weight:800}
+  .approvebar .allbtn{border:none;background:#fff;color:var(--brand);font-weight:800;
+    border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer}
+  .cal{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.03)}
+  .cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cal-inner{min-width:770px}
+  .wkhead{display:grid;grid-template-columns:repeat(7,minmax(104px,1fr));gap:8px;margin-bottom:8px}
+  .wkhead div{text-align:center;font-size:13px;font-weight:800;color:var(--sub);padding:4px 0}
+  .grid{display:grid;grid-template-columns:repeat(7,minmax(104px,1fr));gap:8px}
+  .spacer{background:transparent}
+  .cell{background:var(--empty);border:1px solid var(--line);border-radius:14px;padding:10px 9px;min-height:248px;
+    display:flex;flex-direction:column}
+  .cell.planned{background:#fffaf3;border-color:#ffd9a8}
+  .cell .top{display:flex;align-items:baseline;gap:6px}
+  .cell .dnum{font-size:20px;font-weight:800;line-height:1}
+  .cell .wd{font-size:11px;color:var(--sub);background:var(--chip);color:var(--chipink);
+    padding:1px 7px;border-radius:999px;font-weight:700}
+  .cell .store{font-size:13px;font-weight:800;margin-top:8px;line-height:1.35}
+  .cell .tag{display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--brand);
+    padding:1px 6px;border-radius:6px;margin-bottom:4px}
+  .cell .dist{font-size:11px;color:var(--sub);font-weight:600}
+  .cell .dv{margin-top:7px;font-size:11px;color:var(--sub);line-height:1.5}
+  .cell .dv b{color:var(--ink)}
+  .cell .maplink{font-size:11px;color:var(--brand);text-decoration:none;font-weight:700;margin-top:6px;display:inline-block}
+  .cell .maplink:hover{text-decoration:underline}
+  .cell .budget{margin-top:auto;background:linear-gradient(135deg,#fff7ec,#fff);border:1px dashed var(--brand);
+    border-radius:9px;padding:6px 9px;margin-top:9px}
+  .cell .budget .amt{font-size:15px;font-weight:800;color:var(--brand)}
+  .cell .budget .cap{font-size:9px;color:var(--ok);font-weight:700;display:block;margin-top:1px}
+  .cell .status{display:flex;gap:5px;margin-top:8px}
+  .cell .status button{flex:1;border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:3px 0;font-size:10px;cursor:pointer;color:var(--sub);font-weight:600}
+  .cell .status button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .cell .status button.on.postpone{background:var(--warn);border-color:var(--warn)}
+  .cell .status button.on.swap{background:var(--swap);border-color:var(--swap)}
+  .cell .approve{margin-top:7px;border:1.5px solid var(--brand);background:#fff;color:var(--brand);
+    border-radius:10px;padding:6px 0;font-size:12px;font-weight:800;cursor:pointer;width:100%}
+  .cell .approve.done{background:var(--ok);border-color:var(--ok);color:#fff}
+  .cell.empty .dnum{color:#c9cdd4}
+  .cell.empty .free{margin:auto;color:#b6bcc6;font-size:12px;text-align:center;font-weight:600}
+  footer{margin-top:22px;font-size:11px;color:var(--sub);text-align:center;line-height:1.7}
+  a.inline{color:var(--brand);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🍱 午餐执行月历 · 2026年8月</h1>
+    <div class="meta">
+      配送点：<b>浙江省宁波市海曙区汇贤路 高桥商会大厦-B座</b><br/>
+      显示：<b>8月21日 → 8月31日</b>（周一为首列）· 一人餐 · 平台：美团 / 淘宝闪购
+    </div>
+    <div class="approvebar">
+      <span class="prog">审批进度：<b id="approveCount">0</b> / <span id="approveTotal">0</span></span>
+      <button class="allbtn" id="approveAll">一键通过 ✓</button>
+    </div>
+  </header>
+
+  <div class="cal">
+    <div class="cal-scroll">
+      <div class="cal-inner">
+        <div class="wkhead">
+          <div>周一</div><div>周二</div><div>周三</div><div>周四</div><div>周五</div><div>周六</div><div>周日</div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    预算为预估（腾讯地图定位 + 大众点评/美团 公开价格区间），最终以美团 / 淘宝闪购 结算页实付为准。<br/>
+    所选店铺均为堂食餐饮店，直线距离均＜7km，优先大品牌 / 高评分店。<br/>
+    下单前可在美团 / 淘宝闪购 比价领券（淘宝闪购常有隐藏大额券），实付更低。<br/>
+    配送原点：<a class="inline" href="https://apis.map.qq.com/uri/v1/marker?marker=coord:29.901572,121.475921;title:高桥商会大厦-B座;addr:浙江省宁波市海曙区汇贤路&referer=lunchcal" target="_blank">在腾讯地图查看配送点</a>
+  </footer>
+</div>
+
+<script>
+const PLAN = {
+  "2026-08-21":{store:"万美酒家·高桥宴请新地标",tag:"中餐小炒",dist:"90m",
+    addr:"海曙区高桥镇汇贤路298号(高桥开元名庭3楼)",coord:"29.901085,121.476676",
+    p:"小炒（青椒肉丝/番茄炒蛋）",v:"清炒时蔬",s:"米饭",budget:"¥38–48"},
+  "2026-08-22":{store:"袁家牛肉饭(汇贤路店)",tag:"牛肉饭",dist:"349m",
+    addr:"海曙区高桥镇汇贤路443号月映澜堂北门",coord:"29.902712,121.472545",
+    p:"牛肉片",v:"时令青菜",s:"米饭",budget:"¥35–42"},
+  "2026-08-23":{store:"米村拌饭(海曙印象城店)",tag:"韩式拌饭",dist:"658m",
+    addr:"中山西路3666号海曙印象城B1",coord:"29.895798,121.477407",
+    p:"烤牛肉 / 安格斯肥牛",v:"菌菇蔬菜（免费海菜汤+泡菜）",s:"米饭（免费续）",budget:"¥30–42"},
+  "2026-08-24":{store:"小味道川味餐厅(海曙印象城店)",tag:"川菜",dist:"573m",
+    addr:"中山西路3666号海曙印象城L5-08",coord:"29.896616,121.477534",
+    p:"鱼香肉丝 / 宫保鸡丁",v:"清炒时蔬",s:"米饭",budget:"¥38–46"},
+  "2026-08-25":{store:"台州特色面馆(印悦里店)",tag:"浙江面",dist:"471m",
+    addr:"印象城购物中心中山西路店东南门北100米",coord:"29.898087,121.478706",
+    p:"海鲜 / 肉丝",v:"青菜",s:"面条",budget:"¥30–38"},
+  "2026-08-26":{store:"重庆特色面馆(高桥店)",tag:"重庆面",dist:"568m",
+    addr:"高锦花苑南区东北门旁",coord:"29.903715,121.470574",
+    p:"牛肉 / 豌杂",v:"青菜 / 卤蛋",s:"面条",budget:"¥30–37"},
+  "2026-08-27":{store:"菲滋意式餐厅(海曙印象城店)",tag:"西餐",dist:"553m",
+    addr:"中山西路3666号印象城L5-09",coord:"29.896828,121.477641",
+    p:"培根 / 鸡肉意面",v:"蔬菜沙拉",s:"意面",budget:"¥42–49"},
+  "2026-08-28":{store:"乡村基·川菜小炒",tag:"川菜小炒",dist:"655m",
+    addr:"海曙区高桥镇",coord:null,
+    p:"鸡腿排 / 蒸蛋",v:"西兰花 / 时蔬",s:"米饭",budget:"¥30–40"},
+  "2026-08-29":{store:"万美酒家·高桥宴请新地标",tag:"中餐小炒",dist:"90m",
+    addr:"海曙区高桥镇汇贤路298号(高桥开元名庭3楼)",coord:"29.901085,121.476676",
+    p:"小炒（青椒肉丝/番茄炒蛋）",v:"清炒时蔬",s:"米饭",budget:"¥38–48"},
+  "2026-08-30":{store:"袁家牛肉饭(汇贤路店)",tag:"牛肉饭",dist:"349m",
+    addr:"海曙区高桥镇汇贤路443号月映澜堂北门",coord:"29.902712,121.472545",
+    p:"牛肉片",v:"时令青菜",s:"米饭",budget:"¥35–42"},
+  "2026-08-31":{store:"米村拌饭(海曙印象城店)",tag:"韩式拌饭",dist:"658m",
+    addr:"中山西路3666号海曙印象城B1",coord:"29.895798,121.477407",
+    p:"烤牛肉 / 安格斯肥牛",v:"菌菇蔬菜（免费海菜汤+泡菜）",s:"米饭（免费续）",budget:"¥30–42"}
+};
+
+const WD = {1:"周一",2:"周二",3:"周三",4:"周四",5:"周五",6:"周六",0:"周日"};
+const mapUrl = d => d.coord
+  ? `https://apis.map.qq.com/uri/v1/marker?marker=coord:${d.coord};title:${encodeURIComponent(d.store)};addr:${encodeURIComponent(d.addr)}&referer=lunchcal`
+  : `https://apis.map.qq.com/uri/v1/search?keyword=${encodeURIComponent(d.store)}&region=${encodeURIComponent("宁波市海曙区")}&referer=lunchcal`;
+
+const grid = document.getElementById("grid");
+const LEAD=4, START=21, END=31, TRAIL=6;
+const keys=[];
+for(let i=0;i<LEAD;i++){const s=document.createElement("div");s.className="spacer";grid.appendChild(s);}
+for(let day=START;day<=END;day++){
+  const dt=new Date(2026,7,day);
+  const wd=WD[dt.getDay()];
+  const key=`2026-08-${String(day).padStart(2,"0")}`;
+  const d=PLAN[key];
+  const cell=document.createElement("div");
+  if(d){
+    keys.push(key);
+    cell.className="cell planned";
+    cell.innerHTML=`
+      <div class="top"><span class="dnum">${day}</span><span class="wd">${wd}</span></div>
+      <div class="store"><span class="tag">${d.tag}</span><br/>${d.store}</div>
+      <div class="dist">📍 ${d.dist}</div>
+      <div class="dv"><b>蛋白</b> ${d.p}<br/><b>蔬菜</b> ${d.v}<br/><b>主食</b> ${d.s}</div>
+      <a class="maplink" href="${mapUrl(d)}" target="_blank">腾讯地图查看 ›</a>
+      <div class="budget"><span class="amt">${d.budget}</span><span class="cap">实付&lt;50 ✓</span></div>
+      <div class="status" data-key="${key}">
+        <button data-s="normal" class="on">正常</button>
+        <button data-s="postpone">顺延</button>
+        <button data-s="swap">调换</button>
+      </div>
+      <button class="approve" data-key="${key}">审批</button>`;
+  }else{
+    cell.className="cell empty";
+    cell.innerHTML=`<div class="top"><span class="dnum">${day}</span><span class="wd">${wd}</span></div><div class="free">未排期</div>`;
+  }
+  grid.appendChild(cell);
+}
+for(let i=0;i<TRAIL;i++){const s=document.createElement("div");s.className="spacer";grid.appendChild(s);}
+
+document.getElementById("approveTotal").textContent = keys.length;
+
+// ---------- 跨设备同步：后端 API 为主，localStorage 兜底 ----------
+const stKey = k => `lunch_status_${k}`;
+const apKey = k => `lunch_approve_${k}`;
+let remoteOK = true;
+
+async function apiState(){
+  const r = await fetch('/api/state', {cache:'no-store'});
+  if(!r.ok) throw new Error('net');
+  return await r.json();
+}
+async function apiSet(type, key, value){
+  const r = await fetch('/api/approve', {method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({type, key, value})});
+  if(!r.ok) throw new Error('net');
+  return await r.json();
+}
+
+function applyState(s){
+  // s: {approved:{}, status:{}}
+  const approved = s.approved || {};
+  const status = s.status || {};
+  keys.forEach(k=>{
+    const btn = document.querySelector(`.approve[data-key="${k}"]`);
+    if(btn){
+      const done = !!approved[k];
+      btn.classList.toggle('done', done);
+      btn.textContent = done ? '已审批 ✓' : '审批';
+    }
+    const g = document.querySelector(`.status[data-key="${k}"]`);
+    if(g){
+      const sv = status[k] || 'normal';
+      g.querySelectorAll('button').forEach(b=>{
+        b.classList.remove('on','postpone','swap');
+        if(b.dataset.s===sv){ b.classList.add('on'); if(sv==='postpone')b.classList.add('postpone'); if(sv==='swap')b.classList.add('swap'); }
+      });
+    }
+  });
+  const n = keys.filter(k=>approved[k]).length;
+  document.getElementById('approveCount').textContent = n;
+}
+
+async function loadState(){
+  try{
+    const s = await apiState();
+    remoteOK = true;
+    applyState(s);
+  }catch(e){
+    remoteOK = false;
+    // 兜底：本机
+    const s = {approved:{}, status:{}};
+    keys.forEach(k=>{
+      s.approved[k] = localStorage.getItem(apKey(k))==="1";
+      s.status[k] = localStorage.getItem(stKey(k)) || 'normal';
+    });
+    applyState(s);
+  }
+}
+
+// 状态按钮
+document.querySelectorAll('.cell.planned .status').forEach(g=>{
+  const k=g.dataset.key;
+  g.querySelectorAll('button').forEach(b=>{
+    b.onclick=async ()=>{
+      const sv=b.dataset.s;
+      g.querySelectorAll('button').forEach(x=>x.classList.remove('on','postpone','swap'));
+      b.classList.add('on'); if(sv==='postpone')b.classList.add('postpone'); if(sv==='swap')b.classList.add('swap');
+      if(remoteOK){ try{ const s=await apiSet('status',k,sv); applyState(s);}catch(e){ localStorage.setItem(stKey(k),sv); } }
+      else { localStorage.setItem(stKey(k),sv); }
+    };
+  });
+});
+
+// 审批按钮
+document.querySelectorAll('.cell.planned .approve').forEach(btn=>{
+  const k=btn.dataset.key;
+  btn.onclick=async ()=>{
+    const willDone = !btn.classList.contains('done');
+    btn.classList.toggle('done', willDone);
+    btn.textContent = willDone ? '已审批 ✓' : '审批';
+    const n = keys.filter(x=>document.querySelector(`.approve[data-key="${x}"]`).classList.contains('done')).length;
+    document.getElementById('approveCount').textContent = n;
+    if(remoteOK){ try{ const s=await apiSet('approve',k,willDone); applyState(s);}catch(e){ localStorage.setItem(apKey(k), willDone?'1':'0'); } }
+    else { localStorage.setItem(apKey(k), willDone?'1':'0'); }
+  };
+});
+
+// 一键通过
+document.getElementById('approveAll').onclick=async ()=>{
+  if(remoteOK){
+    try{
+      // 逐条写入（数据量小）
+      let last=null;
+      for(const k of keys){ last = await apiSet('approve',k,true); }
+      applyState(last||{approved:{},status:{}});
+      return;
+    }catch(e){ /* fallthrough to local */ }
+  }
+  keys.forEach(k=>localStorage.setItem(apKey(k),'1'));
+  loadState();
+};
+
+// 启动 + 每 5 秒轮询（跨设备实时同步）
+loadState();
+setInterval(loadState, 5000);
+</script>
+</body>
+</html>
