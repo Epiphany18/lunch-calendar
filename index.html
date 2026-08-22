@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>一日三餐推荐月历 · 2026年9月 · 高桥商会大厦-B座（江浙沪）</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2329; --sub:#6b7280;
+    --line:#e6e8eb; --brand:#ff7a00; --brand2:#ffb347; --ok:#16a34a;
+    --warn:#d97706; --swap:#dc2626; --chip:#fff3e6; --chipink:#b45309;
+    --meal:#eef4ff; --mealink:#2b6cb0; --empty:#fafbfc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 14px 56px}
+  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:18px;
+    padding:22px 20px;box-shadow:0 8px 24px rgba(255,122,0,.25)}
+  header h1{font-size:21px;font-weight:800;letter-spacing:.5px}
+  header .meta{margin-top:8px;font-size:13px;opacity:.96}
+  header .meta b{font-weight:700}
+  .approvebar{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:rgba(255,255,255,.18);border-radius:12px;padding:9px 12px;font-size:13px}
+  .approvebar .prog{font-weight:800}
+  .approvebar .allbtn{border:none;background:#fff;color:var(--brand);font-weight:800;
+    border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer}
+  .cal{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.03)}
+  .hint{font-size:11px;color:var(--sub);margin:0 2px 8px}
+  .cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cal-inner{min-width:1080px}
+  .wkhead{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px}
+  .wkhead div{text-align:center;font-size:13px;font-weight:800;color:var(--sub);padding:4px 0}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .spacer{background:transparent}
+  .cell{background:var(--empty);border:1px solid var(--line);border-radius:14px;padding:9px 8px;min-height:300px;
+    display:flex;flex-direction:column}
+  .cell.planned{background:#fffaf3;border-color:#ffd9a8}
+  .cell .top{display:flex;align-items:baseline;gap:6px;justify-content:center}
+  .cell .dnum{font-size:19px;font-weight:800;line-height:1}
+  .cell .wd{font-size:10px;color:#fff;background:var(--brand);padding:1px 6px;border-radius:999px;font-weight:700}
+  .cell.empty .dnum{color:#c9cdd4}
+  .cell.empty .free{margin:auto;color:#b6bcc6;font-size:12px;text-align:center;font-weight:600}
+  .meal{border:1px solid var(--line);border-radius:10px;padding:7px 7px;margin-top:8px;background:#fff}
+  .meal:first-of-type{margin-top:9px}
+  .meal .mh{display:flex;align-items:center;justify-content:space-between}
+  .meal .mh .mt{font-size:11px;font-weight:800;color:var(--mealink);background:var(--meal);padding:1px 7px;border-radius:6px}
+  .meal .mh .tag{font-size:9px;font-weight:700;color:#fff;background:var(--brand);padding:1px 5px;border-radius:5px}
+  .meal .store{font-size:12px;font-weight:800;margin-top:5px;line-height:1.3}
+  .meal .dist{font-size:10px;color:var(--sub);font-weight:600}
+  .meal .dv{margin-top:5px;font-size:10px;color:var(--sub);line-height:1.45}
+  .meal .dv b{color:var(--ink)}
+  .meal .maplink{font-size:10px;color:var(--brand);text-decoration:none;font-weight:700}
+  .meal .maplink:hover{text-decoration:underline}
+  .meal .budget{margin-top:5px;background:linear-gradient(135deg,#fff7ec,#fff);border:1px dashed var(--brand);
+    border-radius:8px;padding:4px 7px}
+  .meal .budget .amt{font-size:13px;font-weight:800;color:var(--brand)}
+  .meal .budget .cap{font-size:8px;color:var(--ok);font-weight:700;display:block;margin-top:1px}
+  .meal .status{display:flex;gap:4px;margin-top:6px}
+  .meal .status button{flex:1;border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:2px 0;font-size:9px;cursor:pointer;color:var(--sub);font-weight:600}
+  .meal .status button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .meal .status button.on.postpone{background:var(--warn);border-color:var(--warn)}
+  .meal .status button.on.swap{background:var(--swap);border-color:var(--swap)}
+  .cell .approve{margin-top:9px;border:1.5px solid var(--brand);background:#fff;color:var(--brand);
+    border-radius:10px;padding:6px 0;font-size:12px;font-weight:800;cursor:pointer;width:100%}
+  .cell .approve.done{background:var(--ok);border-color:var(--ok);color:#fff}
+  footer{margin-top:22px;font-size:11px;color:var(--sub);text-align:center;line-height:1.7}
+  a.inline{color:var(--brand);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🍱 一日三餐推荐月历 · 2026年9月 · 江浙沪</h1>
+    <div class="meta">
+      配送点：<b>浙江省宁波市海曙区汇贤路 高桥商会大厦-B座</b><br/>
+      口味：<b>江浙沪（本帮/杭帮/甬菜/苏式）</b> · 微辣可接受 · 禁动物内脏<br/>
+      显示：<b>2026年9月全月</b>（周一为首列）· 前 7 天（9/1–9/7）为排期周 · 一人餐 · 平台：美团 / 淘宝闪购
+    </div>
+    <div class="approvebar">
+      <span class="prog">审批进度：<b id="approveCount">0</b> / <span id="approveTotal">0</span></span>
+      <button class="allbtn" id="approveAll">一键通过 ✓</button>
+    </div>
+  </header>
+
+  <div class="cal">
+    <div class="hint">← 左右滑动查看整周 →　每格含早 / 午 / 晚 三餐（店铺·标签·距离·蛋白·蔬菜·主食·预算·地图·状态）</div>
+    <div class="cal-scroll">
+      <div class="cal-inner">
+        <div class="wkhead">
+          <div>周一</div><div>周二</div><div>周三</div><div>周四</div><div>周五</div><div>周六</div><div>周日</div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    预算为预估（腾讯地图定位 + 大众点评/美团 公开价格区间），最终以美团 / 淘宝闪购 结算页实付为准。<br/>
+    所选店铺均为堂食餐饮店，直线距离均＜10km，优先大品牌 / 高评分店；七天（排期周）店铺不重样。<br/>
+    下单前可在美团 / 淘宝闪购 比价领券（淘宝闪购常有隐藏大额券），实付更低。<br/>
+    配送原点：<a class="inline" href="https://apis.map.qq.com/uri/v1/marker?marker=coord:29.901572,121.475921;title:高桥商会大厦-B座;addr:浙江省宁波市海曙区汇贤路&referer=lunchcal" target="_blank">在腾讯地图查看配送点</a>
+  </footer>
+</div>
+
+<script>
+const PLAN = {
+  "2026-09-01":{
+    breakfast:{store:"三米粥铺",tag:"粥·早餐",dist:"494m",addr:"海曙区高桥镇",coord:null,
+      p:"茶叶蛋 / 肉包",v:"凉拌海带丝",s:"皮蛋瘦肉粥 / 小米粥",budget:"¥15–25"},
+    lunch:{store:"袁家牛肉饭(汇贤路店)",tag:"牛肉饭",dist:"349m",addr:"海曙区高桥镇汇贤路443号月映澜堂北门",coord:"29.902712,121.472545",
+      p:"牛肉片",v:"时令青菜",s:"米饭",budget:"¥35–42"},
+    dinner:{store:"万美酒家·高桥宴请新地标",tag:"宁波本帮",dist:"90m",addr:"海曙区高桥镇汇贤路298号(高桥开元名庭3楼)",coord:"29.901085,121.476676",
+      p:"小炒（青椒肉丝/番茄炒蛋）",v:"清炒时蔬",s:"米饭",budget:"¥38–48"}
+  },
+  "2026-09-02":{
+    breakfast:{store:"五芳斋",tag:"粽子·点心",dist:"约1.5km",addr:"海曙区",coord:null,
+      p:"蛋黄肉粽 / 鲜肉粽",v:"小菜",s:"粥 / 米饭",budget:"¥14–24"},
+    lunch:{store:"老娘舅",tag:"中式快餐",dist:"约1.5km",addr:"海曙区",coord:null,
+      p:"蒸鸡腿 / 狮子头",v:"西兰花 / 时蔬",s:"米饭（含汤）",budget:"¥28–38"},
+    dinner:{store:"外婆家",tag:"杭帮菜",dist:"约5km",addr:"海曙区",coord:null,
+      p:"茶香鸡 / 红烧肉",v:"青豆 / 清炒时蔬",s:"米饭",budget:"¥35–48"}
+  },
+  "2026-09-03":{
+    breakfast:{store:"永和豆浆",tag:"豆浆·早餐",dist:"约3km",addr:"海曙区",coord:null,
+      p:"蛋 + 豆浆",v:"烫青菜",s:"饭团 / 粥",budget:"¥15–28"},
+    lunch:{store:"台州特色面馆(印悦里店)",tag:"浙江面",dist:"471m",addr:"印象城购物中心中山西路店东南门北100米",coord:"29.898087,121.478706",
+      p:"海鲜 / 肉丝",v:"青菜",s:"面条",budget:"¥30–38"},
+    dinner:{store:"南京大牌档",tag:"金陵江浙",dist:"约7km",addr:"海曙区",coord:null,
+      p:"盐水鸭 / 狮子头",v:"时蔬 / 地锅青菜",s:"米饭 / 阳春面",budget:"¥35–48"}
+  },
+  "2026-09-04":{
+    breakfast:{store:"缸鸭狗",tag:"宁波汤圆",dist:"约2km",addr:"海曙区",coord:null,
+      p:"鲜肉汤圆 / 蛋",v:"小菜",s:"酒酿圆子 / 粥",budget:"¥16–26"},
+    lunch:{store:"新白鹿餐厅",tag:"杭帮菜",dist:"约5km",addr:"海曙区",coord:null,
+      p:"蛋黄鸡翅 / 鱼香肉丝",v:"上汤时蔬",s:"米饭",budget:"¥30–45"},
+    dinner:{store:"甬上名灶",tag:"宁波菜",dist:"约3km",addr:"海曙区",coord:null,
+      p:"宁波烤菜 / 白切鸡",v:"清炒时蔬",s:"米饭",budget:"¥32–46"}
+  },
+  "2026-09-05":{
+    breakfast:{store:"知味观",tag:"杭州点心",dist:"约6km",addr:"海曙区",coord:null,
+      p:"小笼 / 蛋",v:"拌时蔬",s:"猫耳朵 / 粥",budget:"¥16–28"},
+    lunch:{store:"大娘水饺",tag:"水饺·苏式",dist:"约3km",addr:"海曙区",coord:null,
+      p:"猪肉 / 牛肉水饺",v:"凉拌木耳",s:"水饺 / 汤",budget:"¥22–32"},
+    dinner:{store:"状元楼",tag:"宁波老字号",dist:"约4km",addr:"海曙区",coord:null,
+      p:"宁波烤菜 / 醉鸡",v:"时蔬",s:"米饭",budget:"¥33–47"}
+  },
+  "2026-09-06":{
+    breakfast:{store:"巴比馒头",tag:"包子·早餐",dist:"约2km",addr:"海曙区",coord:null,
+      p:"鲜肉包 / 豆浆",v:"小菜",s:"包子 / 粥",budget:"¥12–22"},
+    lunch:{store:"宁波海鲜面馆(本地)",tag:"海鲜面",dist:"约1km",addr:"海曙区高桥镇",coord:null,
+      p:"海鲜 / 鱼丸",v:"青菜",s:"米面 / 面条",budget:"¥28–38"},
+    dinner:{store:"老头儿油爆虾",tag:"杭州菜",dist:"约6km",addr:"海曙区",coord:null,
+      p:"油爆虾 / 东坡肉",v:"清炒时蔬",s:"米饭",budget:"¥35–48"}
+  },
+  "2026-09-07":{
+    breakfast:{store:"老盛昌汤包",tag:"苏式汤包",dist:"约4km",addr:"海曙区",coord:null,
+      p:"鲜肉汤包 / 蛋",v:"小菜",s:"汤包 / 粥",budget:"¥14–24"},
+    lunch:{store:"绿茶餐厅",tag:"杭帮融合",dist:"约6km",addr:"海曙区",coord:null,
+      p:"鱼头 / 烤肉",v:"时蔬",s:"米饭",budget:"¥32–46"},
+    dinner:{store:"新发现",tag:"杭帮菜",dist:"约5km",addr:"海曙区",coord:null,
+      p:"杭椒牛柳 / 龙井虾仁",v:"清炒时蔬",s:"米饭",budget:"¥33–47"}
+  }
+};
+
+const MEALS = ["breakfast","lunch","dinner"];
+const MEAL_LABEL = {breakfast:"早",lunch:"午",dinner:"晚"};
+const WD = {1:"周一",2:"周二",3:"周三",4:"周四",5:"周五",6:"周六",0:"周日"};
+const mapUrl = d => d.coord
+  ? `https://apis.map.qq.com/uri/v1/marker?marker=coord:${d.coord};title:${encodeURIComponent(d.store)};addr:${encodeURIComponent(d.addr)}&referer=lunchcal`
+  : `https://apis.map.qq.com/uri/v1/search?keyword=${encodeURIComponent(d.store)}&region=${encodeURIComponent("宁波市海曙区")}&referer=lunchcal`;
+
+const grid = document.getElementById("grid");
+const Y=2026, M=8; // 月份下标：9月=8
+const first = new Date(Y,M,1);
+const lead = (first.getDay()+6)%7; // 周一为首列
+const daysInMonth = new Date(Y,M+1,0).getDate();
+const trail = (7 - ((lead + daysInMonth)%7))%7;
+
+for(let i=0;i<lead;i++){const s=document.createElement("div");s.className="spacer";grid.appendChild(s);}
+const plannedDays = [];
+for(let day=1;day<=daysInMonth;day++){
+  const dt=new Date(Y,M,day);
+  const key=`${Y}-09-${String(day).padStart(2,"0")}`;
+  const d=PLAN[key];
+  const cell=document.createElement("div");
+  if(d){
+    plannedDays.push(key);
+    cell.className="cell planned";
+    let mealsHtml="";
+    MEALS.forEach(m=>{
+      const md=d[m];
+      mealsHtml+=`
+        <div class="meal">
+          <div class="mh"><span class="mt">${MEAL_LABEL[m]}</span><span class="tag">${md.tag}</span></div>
+          <div class="store">${md.store}</div>
+          <div class="dist">📍 ${md.dist}</div>
+          <div class="dv"><b>蛋白</b> ${md.p}<br/><b>蔬菜</b> ${md.v}<br/><b>主食</b> ${md.s}</div>
+          <a class="maplink" href="${mapUrl(md)}" target="_blank">腾讯地图查看 ›</a>
+          <div class="budget"><span class="amt">${md.budget}</span><span class="cap">实付&lt;50 ✓</span></div>
+          <div class="status" data-key="${key}__${m}">
+            <button data-s="normal" class="on">正常</button>
+            <button data-s="postpone">顺延</button>
+            <button data-s="swap">调换</button>
+          </div>
+        </div>`;
+    });
+    cell.innerHTML=`
+      <div class="top"><span class="dnum">${day}</span><span class="wd">${WD[dt.getDay()]}</span></div>
+      ${mealsHtml}
+      <button class="approve" data-key="${key}">审批</button>`;
+  }else{
+    cell.className="cell empty";
+    cell.innerHTML=`<div class="top"><span class="dnum">${day}</span><span class="wd">${WD[dt.getDay()]}</span></div><div class="free">未排期</div>`;
+  }
+  grid.appendChild(cell);
+}
+for(let i=0;i<trail;i++){const s=document.createElement("div");s.className="spacer";grid.appendChild(s);}
+
+document.getElementById("approveTotal").textContent = plannedDays.length;
+
+// ---------- 跨设备同步：后端 API 为主，localStorage 兜底 ----------
+const stKey = k => `lunch_status_${k}`;
+const apKey = k => `lunch_approve_${k}`;
+let remoteOK = true;
+
+async function apiState(){
+  const r = await fetch('/api/state', {cache:'no-store'});
+  if(!r.ok) throw new Error('net');
+  return await r.json();
+}
+async function apiSet(type, key, value){
+  const r = await fetch('/api/approve', {method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({type, key, value})});
+  if(!r.ok) throw new Error('net');
+  return await r.json();
+}
+
+function applyState(s){
+  const approved = s.approved || {};
+  const status = s.status || {};
+  plannedDays.forEach(day=>{
+    const btn = document.querySelector(`.approve[data-key="${day}"]`);
+    if(btn){
+      const done = !!approved[day];
+      btn.classList.toggle('done', done);
+      btn.textContent = done ? '已审批 ✓' : '审批';
+    }
+    MEALS.forEach(m=>{
+      const g = document.querySelector(`.status[data-key="${day}__${m}"]`);
+      if(g){
+        const sv = status[`${day}__${m}`] || 'normal';
+        g.querySelectorAll('button').forEach(b=>{
+          b.classList.remove('on','postpone','swap');
+          if(b.dataset.s===sv){ b.classList.add('on'); if(sv==='postpone')b.classList.add('postpone'); if(sv==='swap')b.classList.add('swap'); }
+        });
+      }
+    });
+  });
+  const n = plannedDays.filter(k=>approved[k]).length;
+  document.getElementById('approveCount').textContent = n;
+}
+
+async function loadState(){
+  try{
+    const s = await apiState();
+    remoteOK = true;
+    applyState(s);
+  }catch(e){
+    remoteOK = false;
+    const s = {approved:{}, status:{}};
+    plannedDays.forEach(day=>{
+      s.approved[day] = localStorage.getItem(apKey(day))==="1";
+      MEALS.forEach(m=>{ s.status[`${day}__${m}`] = localStorage.getItem(stKey(`${day}__${m}`)) || 'normal'; });
+    });
+    applyState(s);
+  }
+}
+
+// 状态按钮（每餐）
+document.querySelectorAll('.cell.planned .status').forEach(g=>{
+  const k=g.dataset.key;
+  g.querySelectorAll('button').forEach(b=>{
+    b.onclick=async ()=>{
+      const sv=b.dataset.s;
+      g.querySelectorAll('button').forEach(x=>x.classList.remove('on','postpone','swap'));
+      b.classList.add('on'); if(sv==='postpone')b.classList.add('postpone'); if(sv==='swap')b.classList.add('swap');
+      if(remoteOK){ try{ const s=await apiSet('status',k,sv); applyState(s);}catch(e){ localStorage.setItem(stKey(k),sv); } }
+      else { localStorage.setItem(stKey(k),sv); }
+    };
+  });
+});
+
+// 审批按钮（每天）
+document.querySelectorAll('.cell.planned .approve').forEach(btn=>{
+  const k=btn.dataset.key;
+  btn.onclick=async ()=>{
+    const willDone = !btn.classList.contains('done');
+    btn.classList.toggle('done', willDone);
+    btn.textContent = willDone ? '已审批 ✓' : '审批';
+    const n = plannedDays.filter(x=>document.querySelector(`.approve[data-key="${x}"]`).classList.contains('done')).length;
+    document.getElementById('approveCount').textContent = n;
+    if(remoteOK){ try{ const s=await apiSet('approve',k,willDone); applyState(s);}catch(e){ localStorage.setItem(apKey(k), willDone?'1':'0'); } }
+    else { localStorage.setItem(apKey(k), willDone?'1':'0'); }
+  };
+});
+
+// 一键通过
+document.getElementById('approveAll').onclick=async ()=>{
+  if(remoteOK){
+    try{
+      let last=null;
+      for(const k of plannedDays){ last = await apiSet('approve',k,true); }
+      applyState(last||{approved:{},status:{}});
+      return;
+    }catch(e){ /* fallthrough */ }
+  }
+  plannedDays.forEach(k=>localStorage.setItem(apKey(k),'1'));
+  loadState();
+};
+
+// 启动 + 每 5 秒轮询（跨设备实时同步）
+loadState();
+setInterval(loadState, 5000);
+</script>
+</body>
+</html>
