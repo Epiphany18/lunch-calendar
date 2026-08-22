@@ -4,4 +4,4 @@ compatibility_date = "2024-09-23"
 
 [[kv_namespaces]]
 binding = "LUNCH_KV"
-id = "<23ad696f23654041bf1c15dfd8cb158f>"
+id = "23ad696f23654041bf1c15dfd8cb158f"
